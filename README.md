@@ -1,1 +1,2 @@
-# habbit-tracker
+# habbit-rabbit
+## A habit tracker web app
