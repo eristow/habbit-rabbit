@@ -25,7 +25,13 @@ function App() {
     <Grommet full theme={theme} themeMode="dark">
       <Box fill>
         <Header setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
-        <Box direction="row" flex overflow={{ horizontal: 'hidden' }}>
+        <Box
+          direction="row"
+          flex
+          align="start"
+          overflow={{ horizontal: 'hidden' }}
+          pad="medium"
+        >
           <Box flex align="center" justify="center" app body>
             <Habits />
           </Box>
