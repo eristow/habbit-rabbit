@@ -19,7 +19,7 @@ function Header({ setShowSidebar, showSidebar }) {
   return (
     <AppBar>
       <Heading level="3" margin="none">
-        Habbit-Rabbit
+        Habbit Rabbit
       </Heading>
       <Button icon={<Menu />} onClick={() => setShowSidebar(!showSidebar)} />
     </AppBar>

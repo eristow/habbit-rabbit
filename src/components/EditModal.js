@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Box, Button, Layer, Text, TextInput } from 'grommet';
 
-function EditModal({ closeModal, confirmAction }) {
-  const [name, setName] = useState('');
+function EditModal({ label, closeModal, confirmAction }) {
+  const [newLabel, setNewLabel] = useState(label);
 
   return (
     <Layer responsive={false} onEsc={closeModal} onClickOutside={closeModal}>
@@ -11,7 +11,10 @@ function EditModal({ closeModal, confirmAction }) {
           <Text alignSelf="center" margin="small">
             Edit Item
           </Text>
-          <TextInput value={name} onChange={(e) => setName(e.target.value)} />
+          <TextInput
+            value={newLabel}
+            onChange={(e) => setNewLabel(e.target.value)}
+          />
         </Box>
         <Box direction="row" margin={{ top: 'medium' }} justify="between">
           <Button
@@ -24,7 +27,7 @@ function EditModal({ closeModal, confirmAction }) {
             label="Confirm"
             margin={{ left: 'small' }}
             color="blue"
-            onClick={confirmAction}
+            onClick={() => confirmAction(newLabel)}
           />
         </Box>
       </Box>

@@ -12,7 +12,7 @@ const STORAGE_KEY = 'habits';
 function Habits() {
   const [habits, setHabits] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [labelToDelete, setLabelToDelete] = useState('');
+  const [habitToChange, setHabitToChange] = useState('');
   const [showEditModal, setShowEditModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -38,30 +38,36 @@ function Habits() {
   };
 
   const openDeleteModal = (label) => {
-    setLabelToDelete(label);
+    setHabitToChange(label);
     setShowDeleteModal(true);
   };
 
   const closeDeleteModal = () => {
-    setLabelToDelete('');
+    setHabitToChange('');
     setShowDeleteModal(false);
   };
 
   const removeHabit = () => {
-    setHabits(habits.filter((habit) => habit.label !== labelToDelete));
+    setHabits(habits.filter((habit) => habit.label !== habitToChange));
     closeDeleteModal();
   };
 
-  const openEditModal = () => {
+  const openEditModal = (label) => {
+    setHabitToChange(label);
     setShowEditModal(true);
   };
 
   const closeEditModal = () => {
+    setHabitToChange('');
     setShowEditModal(false);
   };
 
-  const editHabit = () => {
-    console.log('EDIT HABIT');
+  const editHabit = (newLabel) => {
+    setHabits(
+      habits.map((habit) =>
+        habit.label === habitToChange ? { ...habit, label: newLabel } : habit
+      )
+    );
     closeEditModal();
   };
 
@@ -112,7 +118,10 @@ function Habits() {
               onChange={(e) => onCheckHabit(e.target.checked, habit.label)}
             />
             <Box direction="row" align="end" justify="end">
-              <Button icon={<Edit />} onClick={() => openEditModal()} />
+              <Button
+                icon={<Edit />}
+                onClick={() => openEditModal(habit.label)}
+              />
               <Button
                 icon={<Trash color="red" />}
                 onClick={() => openDeleteModal(habit.label)}
@@ -128,7 +137,11 @@ function Habits() {
         />
       )}
       {showEditModal && (
-        <EditModal closeModal={closeEditModal} confirmAction={editHabit} />
+        <EditModal
+          label={habitToChange}
+          closeModal={closeEditModal}
+          confirmAction={editHabit}
+        />
       )}
       {showCreateModal && (
         <CreateModal
