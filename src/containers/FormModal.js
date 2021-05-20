@@ -1,14 +1,10 @@
-import { Box, Button, Layer, Text } from 'grommet';
+import { Box, Button, Layer } from 'grommet';
 
-function DeleteModal({ closeModal, confirmAction }) {
+function FormModal({ children, closeModal, confirmAction }) {
   return (
     <Layer responsive={false} onEsc={closeModal} onClickOutside={closeModal}>
+      {children}
       <Box pad="medium">
-        <Box direction="column" pad="medium">
-          <Text alignSelf="center" margin="small">
-            Remove item?
-          </Text>
-        </Box>
         <Box direction="row" margin={{ top: 'medium' }} justify="between">
           <Button
             label="Cancel"
@@ -28,4 +24,4 @@ function DeleteModal({ closeModal, confirmAction }) {
   );
 }
 
-export default DeleteModal;
+export default FormModal;

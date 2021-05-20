@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, CheckBox, Text, TextInput } from 'grommet';
-import { Add, Trash } from 'grommet-icons';
+import { Box, Button, CheckBox, Text } from 'grommet';
+import { Add, Edit, Trash } from 'grommet-icons';
 
+// import FormModal from './FormModal';
 import DeleteModal from '../components/DeleteModal';
+import EditModal from '../components/EditModal';
+import CreateModal from '../components/CreateModal';
 
 const STORAGE_KEY = 'habits';
 
 function Habits() {
   const [habits, setHabits] = useState([]);
-  const [newHabitLabel, setNewHabitLabel] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [labelToDelete, setLabelToDelete] = useState('');
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   // Grab habits from localStorage on page load
   useEffect(() => {
@@ -24,17 +28,6 @@ function Habits() {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(habits));
   }, [habits]);
-
-  const addHabit = () => {
-    const newHabit = {
-      label: newHabitLabel,
-      checked: false,
-      confirm: false,
-    };
-
-    setHabits([...habits, newHabit]);
-    setNewHabitLabel('');
-  };
 
   const onCheckHabit = (checked, label) => {
     setHabits(
@@ -59,16 +52,53 @@ function Habits() {
     closeDeleteModal();
   };
 
+  const openEditModal = () => {
+    setShowEditModal(true);
+  };
+
+  const closeEditModal = () => {
+    setShowEditModal(false);
+  };
+
+  const editHabit = () => {
+    console.log('EDIT HABIT');
+    closeEditModal();
+  };
+
+  const openCreateModal = () => {
+    setShowCreateModal(true);
+  };
+
+  const closeCreateModal = () => {
+    setShowCreateModal(false);
+  };
+
+  const createHabit = (newHabitLabel) => {
+    const newHabit = {
+      label: newHabitLabel,
+      checked: false,
+      confirm: false,
+    };
+
+    setHabits([...habits, newHabit]);
+    closeCreateModal();
+  };
+
   return (
     <Box direction="column" overflow="hidden">
-      <Box direction="row" margin={{ bottom: 'small' }}>
-        <TextInput
-          placeholder="New Habit..."
-          value={newHabitLabel}
-          onChange={(e) => setNewHabitLabel(e.target.value)}
-        />
-        <Button icon={<Add />} onClick={addHabit} />
-      </Box>
+      <Button alignSelf="center" onClick={openCreateModal}>
+        <Box
+          direction="row"
+          align="center"
+          justify="center"
+          margin="small"
+          pad="small"
+          border={{ color: 'black', size: 'small', side: 'bottom' }}
+        >
+          <Text margin="small">Add New Habit</Text>
+          <Add color="blue" />
+        </Box>
+      </Button>
       {habits.length === 0 ? (
         <Text alignSelf="center" margin={{ top: 'large' }}>
           No habits to show...
@@ -81,17 +111,29 @@ function Habits() {
               label={habit.label}
               onChange={(e) => onCheckHabit(e.target.checked, habit.label)}
             />
-            <Button
-              icon={<Trash color="red" />}
-              onClick={() => openDeleteModal(habit.label)}
-            />
+            <Box direction="row" align="end" justify="end">
+              <Button icon={<Edit />} onClick={() => openEditModal()} />
+              <Button
+                icon={<Trash color="red" />}
+                onClick={() => openDeleteModal(habit.label)}
+              />
+            </Box>
           </Box>
         ))
       )}
       {showDeleteModal && (
         <DeleteModal
-          closeDeleteModal={closeDeleteModal}
-          removeHabit={removeHabit}
+          closeModal={closeDeleteModal}
+          confirmAction={removeHabit}
+        />
+      )}
+      {showEditModal && (
+        <EditModal closeModal={closeEditModal} confirmAction={editHabit} />
+      )}
+      {showCreateModal && (
+        <CreateModal
+          closeModal={closeCreateModal}
+          confirmAction={createHabit}
         />
       )}
     </Box>

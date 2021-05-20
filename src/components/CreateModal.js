@@ -1,13 +1,21 @@
-import { Box, Button, Layer, Text } from 'grommet';
+import { useState } from 'react';
+import { Box, Button, Layer, Text, TextInput } from 'grommet';
 
-function DeleteModal({ closeModal, confirmAction }) {
+function CreateModal({ closeModal, confirmAction }) {
+  const [name, setName] = useState('');
+
   return (
     <Layer responsive={false} onEsc={closeModal} onClickOutside={closeModal}>
       <Box pad="medium">
         <Box direction="column" pad="medium">
           <Text alignSelf="center" margin="small">
-            Remove item?
+            Create Item
           </Text>
+          <TextInput
+            placeholder={'Habit Name...'}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
         </Box>
         <Box direction="row" margin={{ top: 'medium' }} justify="between">
           <Button
@@ -17,10 +25,10 @@ function DeleteModal({ closeModal, confirmAction }) {
             onClick={closeModal}
           />
           <Button
-            label="Delete"
+            label="Confirm"
             margin={{ left: 'small' }}
-            color="red"
-            onClick={confirmAction}
+            color="blue"
+            onClick={() => confirmAction(name)}
           />
         </Box>
       </Box>
@@ -28,4 +36,4 @@ function DeleteModal({ closeModal, confirmAction }) {
   );
 }
 
-export default DeleteModal;
+export default CreateModal;
