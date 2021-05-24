@@ -92,26 +92,32 @@ function Habits() {
 
   return (
     <Box direction="column" overflow="hidden">
-      <Button alignSelf="center" onClick={openCreateModal}>
-        <Box
-          direction="row"
-          align="center"
-          justify="center"
-          margin="small"
-          pad="small"
-          border={{ color: 'black', size: 'small', side: 'bottom' }}
-        >
-          <Text margin="small">Add New Habit</Text>
-          <Add color="blue" />
-        </Box>
-      </Button>
+      <Box
+        margin="small"
+        border={{ color: 'black', size: 'small', side: 'bottom' }}
+      >
+        <Button alignSelf="center" onClick={openCreateModal}>
+          <Box direction="row" align="center" justify="center">
+            <Add color="blue" />
+            <Text margin="small">Add New Habit</Text>
+          </Box>
+        </Button>
+      </Box>
       {habits.length === 0 ? (
         <Text alignSelf="center" margin={{ top: 'large' }}>
           No habits to show...
         </Text>
       ) : (
         habits.map((habit, i) => (
-          <Box direction="row" justify="between" key={`${habit.label} ${i}`}>
+          <Box
+            style={{
+              transition: 'opacity 0.3s',
+              ...(habit.checked && { opacity: 0.3 }),
+            }}
+            direction="row"
+            justify="between"
+            key={`${habit.label} ${i}`}
+          >
             <CheckBox
               checked={habit.checked}
               label={habit.label}
