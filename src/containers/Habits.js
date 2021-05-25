@@ -12,7 +12,7 @@ const STORAGE_KEY = 'habits';
 function Habits() {
   const [habits, setHabits] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [habitToChange, setHabitToChange] = useState('');
+  const [habitToChange, setHabitToChange] = useState({});
   const [showEditModal, setShowEditModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -37,35 +37,37 @@ function Habits() {
     );
   };
 
-  const openDeleteModal = (label) => {
-    setHabitToChange(label);
+  const openDeleteModal = (habit) => {
+    setHabitToChange(habit);
     setShowDeleteModal(true);
   };
 
   const closeDeleteModal = () => {
-    setHabitToChange('');
+    setHabitToChange({});
     setShowDeleteModal(false);
   };
 
   const removeHabit = () => {
-    setHabits(habits.filter((habit) => habit.label !== habitToChange));
+    setHabits(habits.filter((habit) => habit.label !== habitToChange.label));
     closeDeleteModal();
   };
 
-  const openEditModal = (label) => {
-    setHabitToChange(label);
+  const openEditModal = (habit) => {
+    setHabitToChange(habit);
     setShowEditModal(true);
   };
 
   const closeEditModal = () => {
-    setHabitToChange('');
+    setHabitToChange({});
     setShowEditModal(false);
   };
 
-  const editHabit = (newLabel) => {
+  const editHabit = (newLabel, newFrequency) => {
     setHabits(
       habits.map((habit) =>
-        habit.label === habitToChange ? { ...habit, label: newLabel } : habit
+        habit.label === habitToChange.label
+          ? { ...habit, label: newLabel, frequency: newFrequency }
+          : habit
       )
     );
     closeEditModal();
@@ -79,9 +81,10 @@ function Habits() {
     setShowCreateModal(false);
   };
 
-  const createHabit = (newHabitLabel) => {
+  const createHabit = (newHabitLabel, newFrequency) => {
     const newHabit = {
       label: newHabitLabel,
+      frequency: newFrequency,
       checked: false,
       confirm: false,
     };
@@ -124,13 +127,10 @@ function Habits() {
               onChange={(e) => onCheckHabit(e.target.checked, habit.label)}
             />
             <Box direction="row" align="end" justify="end">
-              <Button
-                icon={<Edit />}
-                onClick={() => openEditModal(habit.label)}
-              />
+              <Button icon={<Edit />} onClick={() => openEditModal(habit)} />
               <Button
                 icon={<Trash color="red" />}
-                onClick={() => openDeleteModal(habit.label)}
+                onClick={() => openDeleteModal(habit)}
               />
             </Box>
           </Box>
@@ -144,7 +144,7 @@ function Habits() {
       )}
       {showEditModal && (
         <EditModal
-          label={habitToChange}
+          habit={habitToChange}
           closeModal={closeEditModal}
           confirmAction={editHabit}
         />
