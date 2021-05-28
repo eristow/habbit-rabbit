@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box, Button, CheckBox, Text } from 'grommet';
 import { Add, Edit, Trash } from 'grommet-icons';
+import moment from 'moment';
 
 // import FormModal from './FormModal';
 import DeleteModal from '../components/DeleteModal';
@@ -22,6 +23,21 @@ function Habits() {
     if (habits) {
       setHabits(JSON.parse(habits));
     }
+  }, []);
+
+  // Set timeout for habit reset
+  useEffect(() => {
+    const resetHabits = () => {
+      console.log('resetHabits fired');
+      setHabits((habits) =>
+        habits.map((habit) => ({ ...habit, checked: false }))
+      );
+    };
+
+    setTimeout(
+      resetHabits,
+      moment('24:00:00', 'hh:mm:ss').diff(moment(), 'milliseconds')
+    );
   }, []);
 
   // Update localStorage habits everytime useState habits changes
