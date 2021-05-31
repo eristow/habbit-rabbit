@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, CheckBox, Text } from 'grommet';
-import { Add, Edit, Trash } from 'grommet-icons';
+import { Box, Button, Text } from 'grommet';
+import { Add } from 'grommet-icons';
 import moment from 'moment';
 
 // import FormModal from './FormModal';
 import DeleteModal from '../components/DeleteModal';
 import EditModal from '../components/EditModal';
 import CreateModal from '../components/CreateModal';
+import Habit from '../components/Habit';
 
 const STORAGE_KEY = 'habits';
 
@@ -29,6 +30,14 @@ function Habits() {
   useEffect(() => {
     const resetHabits = () => {
       console.log('resetHabits fired');
+      // weekly reset
+      if (moment().day() === 2) {
+        setHabits((habits) =>
+          habits.map((habit) => ({ ...habit, numTimesChecked: 0 }))
+        );
+      }
+
+      // daily reset
       setHabits((habits) =>
         habits.map((habit) => ({ ...habit, checked: false }))
       );
@@ -48,7 +57,15 @@ function Habits() {
   const onCheckHabit = (checked, label) => {
     setHabits(
       habits.map((habit) =>
-        habit.label === label ? { ...habit, checked } : habit
+        habit.label === label
+          ? {
+              ...habit,
+              checked,
+              numTimesChecked: checked
+                ? Math.min(habit.numTimesChecked + 1, habit.frequency)
+                : habit.numTimesChecked - 1,
+            }
+          : habit
       )
     );
   };
@@ -103,6 +120,7 @@ function Habits() {
       frequency: newFrequency,
       checked: false,
       confirm: false,
+      numTimesChecked: 0,
     };
 
     setHabits([...habits, newHabit]);
@@ -128,28 +146,13 @@ function Habits() {
         </Text>
       ) : (
         habits.map((habit, i) => (
-          <Box
-            style={{
-              transition: 'opacity 0.3s',
-              ...(habit.checked && { opacity: 0.3 }),
-            }}
-            direction="row"
-            justify="between"
+          <Habit
             key={`${habit.label} ${i}`}
-          >
-            <CheckBox
-              checked={habit.checked}
-              label={habit.label}
-              onChange={(e) => onCheckHabit(e.target.checked, habit.label)}
-            />
-            <Box direction="row" align="end" justify="end">
-              <Button icon={<Edit />} onClick={() => openEditModal(habit)} />
-              <Button
-                icon={<Trash color="red" />}
-                onClick={() => openDeleteModal(habit)}
-              />
-            </Box>
-          </Box>
+            habit={habit}
+            onCheckHabit={onCheckHabit}
+            openEditModal={openEditModal}
+            openDeleteModal={openDeleteModal}
+          />
         ))
       )}
       {showDeleteModal && (
