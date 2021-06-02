@@ -1,7 +1,7 @@
 import { Box, Button, CheckBox, Text } from 'grommet';
 import { Edit, Trash } from 'grommet-icons';
 
-const Habit = ({ habit, onCheckHabit, openEditModal, openDeleteModal }) => {
+function Habit({ habit, onCheckHabit, openEditModal, openDeleteModal }) {
   const habitCompleted = habit.numTimesChecked === habit.frequency;
   return (
     <Box
@@ -34,6 +34,6 @@ const Habit = ({ habit, onCheckHabit, openEditModal, openDeleteModal }) => {
       </Box>
     </Box>
   );
-};
+}
 
 export default Habit;

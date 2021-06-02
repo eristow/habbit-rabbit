@@ -1,19 +1,21 @@
 import { Box, Button, Heading } from 'grommet';
 import { Menu } from 'grommet-icons';
 
-const AppBar = (props) => (
-  <Box
-    tag="header"
-    direction="row"
-    align="center"
-    justify="between"
-    background="header-bg"
-    pad={{ left: 'medium', right: 'small', vertical: 'small' }}
-    elevation="medium"
-    style={{ zIndex: '1' }}
-    {...props}
-  />
-);
+function AppBar(props) {
+  return (
+    <Box
+      tag="header"
+      direction="row"
+      align="center"
+      justify="between"
+      background="header-bg"
+      pad={{ left: 'medium', right: 'small', vertical: 'small' }}
+      elevation="medium"
+      style={{ zIndex: '1' }}
+      {...props}
+    />
+  );
+}
 
 function Header({ setShowSidebar, showSidebar }) {
   return (
