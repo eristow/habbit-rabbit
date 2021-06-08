@@ -19,15 +19,26 @@ const theme = {
   },
 };
 
-const STORAGE_KEY = 'habits';
+const HABITS_STORAGE_KEY = 'habits';
+const TIME_STORAGE_KEY = 'timeLastVisited';
+const MOMENT_FORMAT = 'ddd MM-DD-YYYY hh:mm:ss';
 
 function App() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [habits, setHabits] = useState([]);
 
+  // Create listener to add time to localStorage on page unload
+  window.addEventListener('beforeunload', (ev) => {
+    ev.preventDefault();
+    window.localStorage.setItem(
+      TIME_STORAGE_KEY,
+      moment().format(MOMENT_FORMAT)
+    );
+  });
+
   // Grab habits from localStorage on page load
   useEffect(() => {
-    const habits = localStorage.getItem(STORAGE_KEY);
+    const habits = localStorage.getItem(HABITS_STORAGE_KEY);
     if (habits) {
       setHabits(JSON.parse(habits));
     }
@@ -38,7 +49,7 @@ function App() {
     const resetHabits = () => {
       console.log('resetHabits fired');
       // weekly reset
-      if (moment().day() === 2) {
+      if (moment().day() === 1) {
         setHabits((habits) =>
           habits.map((habit) => ({ ...habit, numTimesChecked: 0 }))
         );
@@ -50,6 +61,26 @@ function App() {
       );
     };
 
+    // Calculate number of resets since timeLastVisited
+    const timeLastVisited = moment(
+      window.localStorage.getItem(TIME_STORAGE_KEY),
+      MOMENT_FORMAT
+    );
+
+    const diff = moment().diff(timeLastVisited, 'days');
+    if (diff >= 1) {
+      if (diff >= 7) {
+        setHabits((habits) =>
+          habits.map((habit) => ({ ...habit, numTimesChecked: 0 }))
+        );
+      }
+
+      setHabits((habits) =>
+        habits.map((habit) => ({ ...habit, checked: false }))
+      );
+    }
+
+    // Fire resetHabits at midnight
     setTimeout(
       resetHabits,
       moment('24:00:00', 'hh:mm:ss').diff(moment(), 'milliseconds')
@@ -58,7 +89,7 @@ function App() {
 
   // Update localStorage habits everytime useState habits changes
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(habits));
+    localStorage.setItem(HABITS_STORAGE_KEY, JSON.stringify(habits));
   }, [habits]);
 
   return (
