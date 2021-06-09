@@ -3,10 +3,8 @@ import { Box } from 'grommet';
 import { v4 as uuidv4 } from 'uuid';
 
 import Habits from './Habits';
-// import FormModal from './FormModal';
+import FormModal from '../components/FormModal';
 import DeleteModal from '../components/DeleteModal';
-import EditModal from '../components/EditModal';
-import CreateModal from '../components/CreateModal';
 
 function HabitsContainer({ habits, setHabits }) {
   const [idToChange, setIdToChange] = useState('');
@@ -88,14 +86,16 @@ function HabitsContainer({ habits, setHabits }) {
         />
       )}
       {showEditModal && (
-        <EditModal
-          habit={habits.find((habit) => habit.id === idToChange)}
+        <FormModal
+          title="Edit Habit"
           closeModal={closeEditModal}
           confirmAction={editHabit}
+          habit={habits.find((habit) => habit.id === idToChange)}
         />
       )}
       {showCreateModal && (
-        <CreateModal
+        <FormModal
+          title="Create Habit"
           closeModal={closeCreateModal}
           confirmAction={createHabit}
         />

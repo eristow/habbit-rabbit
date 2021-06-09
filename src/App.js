@@ -50,12 +50,14 @@ function App() {
       console.log('resetHabits fired');
       // weekly reset
       if (moment().day() === 1) {
+        console.log('weekly reset');
         setHabits((habits) =>
           habits.map((habit) => ({ ...habit, numTimesChecked: 0 }))
         );
       }
 
       // daily reset
+      console.log('daily reset');
       setHabits((habits) =>
         habits.map((habit) => ({ ...habit, checked: false }))
       );
@@ -70,11 +72,13 @@ function App() {
     const diff = moment().diff(timeLastVisited, 'days');
     if (diff >= 1) {
       if (diff >= 7) {
+        console.log('weekly reset diff');
         setHabits((habits) =>
           habits.map((habit) => ({ ...habit, numTimesChecked: 0 }))
         );
       }
 
+      console.log('daily reset diff');
       setHabits((habits) =>
         habits.map((habit) => ({ ...habit, checked: false }))
       );

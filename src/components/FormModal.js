@@ -1,22 +1,24 @@
 import { useState } from 'react';
-import { Box, Button, Layer, Select, Text, TextInput } from 'grommet';
+import { Box, Button, Select, Layer, Text, TextInput } from 'grommet';
 
 const frequencyOptions = [1, 2, 3, 4, 5, 6, 7];
 
-function EditModal({ habit, closeModal, confirmAction }) {
-  const [newLabel, setNewLabel] = useState(habit.label);
-  const [newFrequency, setNewFrequency] = useState(habit.frequency);
+function Form({ title, closeModal, confirmAction, habit = undefined }) {
+  const [name, setName] = useState(habit ? habit.label : '');
+  const [frequency, setFrequency] = useState(habit ? habit.frequency : 7);
 
   return (
     <Layer responsive={false} onEsc={closeModal} onClickOutside={closeModal}>
       <Box pad="medium">
         <Box direction="column" pad="medium">
           <Text alignSelf="center" margin="small">
-            Edit Item
+            {title}
           </Text>
           <TextInput
-            value={newLabel}
-            onChange={(e) => setNewLabel(e.target.value)}
+            placeholder={'Habit Name...'}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            size="medium"
           />
           <Box direction="row" margin={{ top: 'small', bottom: 'small' }}>
             <Text alignSelf="center" margin={{ right: 'small' }}>
@@ -24,8 +26,8 @@ function EditModal({ habit, closeModal, confirmAction }) {
             </Text>
             <Select
               options={frequencyOptions}
-              value={newFrequency}
-              onChange={({ option }) => setNewFrequency(option)}
+              value={frequency}
+              onChange={({ option }) => setFrequency(option)}
             />
           </Box>
         </Box>
@@ -40,7 +42,7 @@ function EditModal({ habit, closeModal, confirmAction }) {
             label="Confirm"
             margin={{ left: 'small' }}
             color="blue"
-            onClick={() => confirmAction(newLabel, newFrequency)}
+            onClick={() => confirmAction(name, frequency)}
           />
         </Box>
       </Box>
@@ -48,4 +50,4 @@ function EditModal({ habit, closeModal, confirmAction }) {
   );
 }
 
-export default EditModal;
+export default Form;
