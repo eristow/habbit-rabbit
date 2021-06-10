@@ -1,23 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Box, Grommet } from 'grommet';
+import { Box, grommet, Grommet } from 'grommet';
+import { deepMerge } from 'grommet/utils';
 import moment from 'moment';
 
+import { customTheme } from './customTheme';
 import HabitsContainer from './containers/HabitsContainer';
 import Header from './containers/Header';
 import Sidebar from './containers/Sidebar';
 
-const theme = {
-  global: {
-    colors: {
-      'header-bg': '#228BE6',
-    },
-    font: {
-      family: 'Roboto',
-      size: '18px',
-      height: '20px',
-    },
-  },
-};
+const theme = deepMerge(grommet, customTheme);
 
 const HABITS_STORAGE_KEY = 'habits';
 const TIME_STORAGE_KEY = 'timeLastVisited';
@@ -26,6 +17,7 @@ const MOMENT_FORMAT = 'ddd MM-DD-YYYY hh:mm:ss';
 function App() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [habits, setHabits] = useState([]);
+  const [darkMode, setDarkMode] = useState(false);
 
   // Create listener to add time to localStorage on page unload
   window.addEventListener('beforeunload', (ev) => {
@@ -97,9 +89,14 @@ function App() {
   }, [habits]);
 
   return (
-    <Grommet full theme={theme} themeMode="dark">
+    <Grommet full theme={theme} themeMode={darkMode ? 'dark' : 'light'}>
       <Box fill>
-        <Header setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
+        <Header
+          setShowSidebar={setShowSidebar}
+          showSidebar={showSidebar}
+          darkMode={darkMode}
+          setDarkMode={setDarkMode}
+        />
         <Box
           direction="row"
           flex

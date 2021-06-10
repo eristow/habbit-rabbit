@@ -1,5 +1,5 @@
 import { Box, Button, Heading } from 'grommet';
-import { Menu } from 'grommet-icons';
+import { Menu, Moon, Sun } from 'grommet-icons';
 
 function AppBar(props) {
   return (
@@ -17,13 +17,23 @@ function AppBar(props) {
   );
 }
 
-function Header({ setShowSidebar, showSidebar }) {
+function Header({ setShowSidebar, showSidebar, darkMode, setDarkMode }) {
   return (
     <AppBar>
       <Heading level="3" margin="none">
         Habbit Rabbit
       </Heading>
-      <Button icon={<Menu />} onClick={() => setShowSidebar(!showSidebar)} />
+      <Box direction="row">
+        <Button
+          icon={darkMode ? <Sun /> : <Moon />}
+          alignSelf="center"
+          margin={{ right: 'small' }}
+          onClick={() => {
+            setDarkMode(!darkMode);
+          }}
+        />
+        <Button icon={<Menu />} onClick={() => setShowSidebar(!showSidebar)} />
+      </Box>
     </AppBar>
   );
 }

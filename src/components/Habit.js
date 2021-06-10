@@ -28,7 +28,7 @@ function Habit({ habit, onCheckHabit, openEditModal, openDeleteModal }) {
       <Box direction="row" align="end" justify="end">
         <Button icon={<Edit />} onClick={() => openEditModal(habit)} />
         <Button
-          icon={<Trash color="red" />}
+          icon={<Trash color="trash-color" />}
           onClick={() => openDeleteModal(habit)}
         />
       </Box>

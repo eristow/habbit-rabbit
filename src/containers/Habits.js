@@ -30,11 +30,11 @@ function Habits({
     <Box direction="column" overflow="hidden">
       <Box
         margin="small"
-        border={{ color: 'black', size: 'small', side: 'bottom' }}
+        border={{ color: 'border-color', size: 'small', side: 'bottom' }}
       >
         <Button alignSelf="center" onClick={openCreateModal}>
           <Box direction="row" align="center" justify="center">
-            <Add color="blue" />
+            <Add color="add-color" />
             <Text margin="small">Add New Habit</Text>
           </Box>
         </Button>
