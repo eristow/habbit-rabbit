@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/habbit-rabbit/static/js/main.8c832501.chunk.js",
-    "main.js.map": "/habbit-rabbit/static/js/main.8c832501.chunk.js.map",
+    "main.js": "/habbit-rabbit/static/js/main.21a3e38e.chunk.js",
+    "main.js.map": "/habbit-rabbit/static/js/main.21a3e38e.chunk.js.map",
     "runtime-main.js": "/habbit-rabbit/static/js/runtime-main.2d2081fe.js",
     "runtime-main.js.map": "/habbit-rabbit/static/js/runtime-main.2d2081fe.js.map",
     "static/js/2.e8a46177.chunk.js": "/habbit-rabbit/static/js/2.e8a46177.chunk.js",
@@ -9,11 +9,13 @@
     "static/js/3.44eff4e8.chunk.js": "/habbit-rabbit/static/js/3.44eff4e8.chunk.js",
     "static/js/3.44eff4e8.chunk.js.map": "/habbit-rabbit/static/js/3.44eff4e8.chunk.js.map",
     "index.html": "/habbit-rabbit/index.html",
+    "service-worker.js": "/habbit-rabbit/service-worker.js",
+    "service-worker.js.map": "/habbit-rabbit/service-worker.js.map",
     "static/js/2.e8a46177.chunk.js.LICENSE.txt": "/habbit-rabbit/static/js/2.e8a46177.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.2d2081fe.js",
     "static/js/2.e8a46177.chunk.js",
-    "static/js/main.8c832501.chunk.js"
+    "static/js/main.21a3e38e.chunk.js"
   ]
 }
