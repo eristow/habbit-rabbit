@@ -28,9 +28,7 @@ function Header({ setShowSidebar, showSidebar, darkMode, setDarkMode }) {
           icon={darkMode ? <Sun /> : <Moon />}
           alignSelf="center"
           margin={{ right: 'small' }}
-          onClick={() => {
-            setDarkMode(!darkMode);
-          }}
+          onClick={setDarkMode}
         />
         <Button icon={<Menu />} onClick={() => setShowSidebar(!showSidebar)} />
       </Box>

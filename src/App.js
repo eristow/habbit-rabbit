@@ -12,12 +12,18 @@ const theme = deepMerge(grommet, customTheme);
 
 const HABITS_STORAGE_KEY = 'habits';
 const TIME_STORAGE_KEY = 'timeLastVisited';
+const DARK_MODE_STORAGE_KEY = 'themeSetting';
 const MOMENT_FORMAT = 'ddd MM-DD-YYYY hh:mm:ss';
 
 function App() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [habits, setHabits] = useState([]);
   const [darkMode, setDarkMode] = useState(false);
+
+  const themeOnClick = () => {
+    window.localStorage.setItem(DARK_MODE_STORAGE_KEY, !darkMode);
+    setDarkMode(!darkMode);
+  };
 
   // Create listener to add time to localStorage on page unload
   window.addEventListener('beforeunload', (ev) => {
@@ -34,6 +40,12 @@ function App() {
     if (habits) {
       setHabits(JSON.parse(habits));
     }
+  }, []);
+
+  // Set darkMode based on localStorage
+  useEffect(() => {
+    const darkModeStorage = localStorage.getItem(DARK_MODE_STORAGE_KEY);
+    setDarkMode(darkModeStorage === 'true');
   }, []);
 
   // Set timeout for habit reset
@@ -60,6 +72,8 @@ function App() {
       window.localStorage.getItem(TIME_STORAGE_KEY),
       MOMENT_FORMAT
     );
+
+    console.log(timeLastVisited);
 
     const diff = moment().diff(timeLastVisited, 'days');
     if (diff >= 1) {
@@ -95,7 +109,7 @@ function App() {
           setShowSidebar={setShowSidebar}
           showSidebar={showSidebar}
           darkMode={darkMode}
-          setDarkMode={setDarkMode}
+          setDarkMode={themeOnClick}
         />
         <Box
           direction="row"

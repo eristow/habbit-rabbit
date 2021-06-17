@@ -20,12 +20,12 @@ function Habit({ habit, onCheckHabit, openEditModal, openDeleteModal }) {
         label={habit.label}
         onChange={(e) => onCheckHabit(e.target.checked, habit.label)}
       />
-      <Text
-        alignSelf="center"
-        margin={{ left: 'small', right: 'small' }}
-        weight="bold"
-      >{`${habit.numTimesChecked}/${habit.frequency}`}</Text>
       <Box direction="row" align="end" justify="end">
+        <Text
+          alignSelf="center"
+          margin={{ left: 'small', right: 'small' }}
+          weight="bold"
+        >{`${habit.numTimesChecked}/${habit.frequency}`}</Text>
         <Button icon={<Edit />} onClick={() => openEditModal(habit)} />
         <Button
           icon={<Trash color="trash-color" />}
