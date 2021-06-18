@@ -13,7 +13,7 @@ const theme = deepMerge(grommet, customTheme);
 const HABITS_STORAGE_KEY = 'habits';
 const TIME_STORAGE_KEY = 'timeLastVisited';
 const DARK_MODE_STORAGE_KEY = 'themeSetting';
-const MOMENT_FORMAT = 'ddd MM-DD-YYYY hh:mm:ss';
+const MOMENT_FORMAT = 'ddd MM-DD-YYYY';
 
 function App() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -73,9 +73,10 @@ function App() {
       MOMENT_FORMAT
     );
 
-    console.log(timeLastVisited);
+    console.log(`timeLastVisited: ${timeLastVisited}`);
 
     const diff = moment().diff(timeLastVisited, 'days');
+    console.log(`diff: ${diff}`);
     if (diff >= 1) {
       if (diff >= 7) {
         console.log('weekly reset diff');
