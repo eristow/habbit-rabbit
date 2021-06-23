@@ -12,6 +12,10 @@ function HabitsContainer({ habits, setHabits }) {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
+  const sortHabits = (habits) => {
+    return habits.sort((a, b) => a.order - b.order);
+  };
+
   const openDeleteModal = (habit) => {
     setIdToChange(habit.id);
     setShowDeleteModal(true);
@@ -37,12 +41,26 @@ function HabitsContainer({ habits, setHabits }) {
     setShowEditModal(false);
   };
 
-  const editHabit = (newLabel, newFrequency) => {
+  const editHabit = (newLabel, newFrequency, newOrder, oldOrder) => {
     setHabits(
-      habits.map((habit) =>
-        habit.id === idToChange
-          ? { ...habit, label: newLabel, frequency: newFrequency }
-          : habit
+      sortHabits(
+        habits.map((habit) => {
+          if (habit.id === idToChange) {
+            return {
+                ...habit,
+                label: newLabel,
+                frequency: newFrequency,
+                order: newOrder,
+            };
+          } else if (habit.order === newOrder) {
+              return {
+                ...habit,
+                order: oldOrder,
+              };
+          }
+          return habit;
+        }
+        )
       )
     );
     closeEditModal();
@@ -56,17 +74,18 @@ function HabitsContainer({ habits, setHabits }) {
     setShowCreateModal(false);
   };
 
-  const createHabit = (newHabitLabel, newFrequency) => {
+  const createHabit = (newLabel, newFrequency, newOrder) => {
     const newHabit = {
-      label: newHabitLabel,
+      label: newLabel,
       frequency: newFrequency,
       checked: false,
       confirm: false,
       numTimesChecked: 0,
       id: uuidv4(),
+      order: newOrder,
     };
 
-    setHabits([...habits, newHabit]);
+    setHabits(sortHabits([...habits, newHabit]));
     closeCreateModal();
   };
 
@@ -90,6 +109,7 @@ function HabitsContainer({ habits, setHabits }) {
           title="Edit Habit"
           closeModal={closeEditModal}
           confirmAction={editHabit}
+          habitsLength={habits.length}
           habit={habits.find((habit) => habit.id === idToChange)}
         />
       )}
@@ -98,6 +118,7 @@ function HabitsContainer({ habits, setHabits }) {
           title="Create Habit"
           closeModal={closeCreateModal}
           confirmAction={createHabit}
+          habitsLength={habits.length}
         />
       )}
     </Box>
